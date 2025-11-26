@@ -13,6 +13,11 @@ connectDB()
 //middleware
 app.use(express.json())
 
+app.use((req,res) => {
+    console.log("this is a new req")
+    next()
+})
+
 app.use("/api/notes", notesRoutes)
 
 
