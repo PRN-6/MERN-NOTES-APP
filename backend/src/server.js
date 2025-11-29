@@ -2,29 +2,30 @@ import express from "express"
 import notesRoutes from './routes/notesRoutes.js'
 import { connectDB } from "./config/db.js"
 import dotenv from "dotenv"
+import cors from 'cors'
+
 
 dotenv.config();
 
 const app = express()
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 5000
 
 connectDB()
 
-//middleware
-app.use(express.json()) //this will let u get acess to request.body
+// middleware
+app.use(express.json()) // this will let you access request.body
 
-//this is a custom middleware
-// app.use((req,res) => {
-//     console.log("this is a new req")
-//     next()
-// })
+// Enable CORS before routes so preflight and cross-origin requests work
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+    })
+)
 
-app.use("/api/notes", notesRoutes)
+// routes
+app.use('/api/notes', notesRoutes)
 
-
-
-
-app.listen(PORT , () => {
-    console.log("server is running on port:",PORT)
+app.listen(PORT, () => {
+    console.log('server is running on port:', PORT)
 })
 
